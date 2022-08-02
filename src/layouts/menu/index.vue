@@ -2,7 +2,7 @@
   <div class="menu_box">
     <div class="title">
       <div class="logo"><img src="@/assets/logo.png" alt="" /></div>
-      <h1 v-show="!isCollapse">后台管理系统</h1>
+      <h1 v-show="!isCollapse">学生成绩后台管理系统</h1>
     </div>
     <MenuList />
   </div>

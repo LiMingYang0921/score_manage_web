@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="title">后台管理系统</div>
+    <div class="title">学生成绩后台管理系统</div>
     <el-form
       label-width="70px"
       ref="ruleFormRef"

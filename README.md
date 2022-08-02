@@ -1,4 +1,4 @@
-# score_manage_web
+# 学生成绩后台管理系统
 
 ## Project setup
 ```
