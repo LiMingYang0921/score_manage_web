@@ -1,6 +1,6 @@
 <template>
   <el-menu class="el-menu-vertical-demo" :collapse="store.state.menuIsCollapse" :default-active="defaultActive"
-    @select='onOpenChange'>
+    @select="onOpenChange">
     <template v-for="item in menuList" :key="item.name">
       <template v-if="item.meta?.showInMenu !== false">
         <el-sub-menu v-if="item?.children" :index="item.path">
@@ -33,6 +33,7 @@ import { reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { Menu as IconMenu, Location } from '@element-plus/icons-vue'
+import request from '@/api/index'
 
 const store = useStore()
 const router = useRouter()
@@ -54,48 +55,25 @@ const handleClose = (key: string, keyPath: string[]) => {
 const onOpenChange = (d: string) => {
   router.push(d)
 }
-console.log(menuRouterList)
 
-const menuList = ref<Array<IMenubarList>>([{
-  meta: { title: '系统管理', icon: 'el-icon-tools' },
-  path: 'system-manage',
-  name: 'system-manage',
-  children: [
-    {
-      path: '/system-manage/user',
-      name: 'user',
-      meta: { title: '用户管理', icon: 'el-icon-tools' }
-    }, {
-      path: '/system-manage/menu',
-      name: 'user',
-      meta: { title: '菜单管理', icon: 'el-icon-tools' }
-    }
-  ]
-},
-{
-  meta: { title: '错误页面', icon: 'el-icon-tools' },
-  name: 'error',
-  path: 'error',
-  children: [
-    {
-      path: '/403',
-      name: '403',
-      meta: { title: '403', icon: 'el-icon-tools' }
-    },
-    {
-      path: '/404',
-      name: '404',
-      meta: { title: '404', icon: 'el-icon-tools' }
-    }
-  ]
-}])
+const menuList = ref<Array<IMenubarList>>([])
+request.XHRMenuList().then((res) => {
+  if (res.code === 200) {
+    menuList.value = res.data ?? []
+    store.commit('setUserInfo', res.data)
+  }
+  console.log('menuList', menuList.value)
+})
 
 const defaultActive = ref<string>(route.path)
-
 </script>
 
-<style>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+<style scoped lang="scss">
+:deep(.el-menu-item-group__title) {
+  display: none;
+}
+
+:deep(.el-menu-vertical-demo:not(.el-menu--collapse)) {
   width: 200px;
   min-height: 400px;
 }

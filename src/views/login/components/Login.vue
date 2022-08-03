@@ -9,8 +9,8 @@
       class="demo-ruleForm"
       status-icon
     >
-      <el-form-item label="手机号" prop="account">
-        <el-input v-model="ruleForm.account" maxlength="11" />
+      <el-form-item label="账号" prop="account">
+        <el-input v-model="ruleForm.account" maxlength="18" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input v-model="ruleForm.password" type="password" />
@@ -26,7 +26,7 @@
         登入
       </el-button>
     </div>
-    <div class="footer">
+    <!-- <div class="footer">
       <el-button
         @click="goRegisterClick"
         class="footer_button"
@@ -35,7 +35,7 @@
       >
         暂无账号？去注册
       </el-button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -44,7 +44,6 @@ import { defineComponent, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { utilValidatePhone } from '@/utils/util'
 import request from '@/api/index'
 import { Md5 } from 'ts-md5/dist/md5'
 
@@ -55,12 +54,6 @@ const effectForm = () => {
     account: '',
     password: ''
   })
-  const validatePhone = (rule: any, value: any, callback: any) => {
-    if (!utilValidatePhone(ruleForm.account)) {
-      callback(new Error('请输入正确的手机号'))
-    }
-    callback()
-  }
   const rules = reactive<FormRules>({
     account: [
       {
@@ -68,10 +61,7 @@ const effectForm = () => {
         message: '请输入手机号',
         trigger: 'change'
       },
-      {
-        validator: validatePhone,
-        trigger: ['blur', 'change']
-      }
+      { min: 5, max: 18, message: '长度为5 ~ 18', trigger: 'blur' }
     ],
     password: [
       {

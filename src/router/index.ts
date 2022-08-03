@@ -35,26 +35,20 @@ export const AllRoutes: Array<IMenubarList> = [
       {
         path: 'system-manage',
         name: 'system-manage',
-        redirect: '/system-manage/user',
-        meta: { title: '系统管理', icon: 'el-icon-tools' },
+        redirect: '/system-manage/teacher',
+        meta: { title: '用户管理', icon: 'el-icon-tools' },
         children: [
           {
-            path: '/system-manage/user',
-            name: 'user',
+            path: '/system-manage/teacher',
+            name: 'teacher',
             component: () => import('@/views/user/User.vue'),
-            meta: { title: '用户管理', icon: 'el-icon-tools' }
+            meta: { title: '老师管理', icon: 'el-icon-tools' }
           },
           {
             path: '/system-manage/menu',
             name: 'menu',
             component: () => import('@/views/menu/Menu.vue'),
-            meta: { title: '菜单管理', icon: 'el-icon-tools' }
-          },
-          {
-            path: '/system-manage/role',
-            name: 'role',
-            component: () => import('@/views/role/Role.vue'),
-            meta: { title: '角色管理', icon: 'el-icon-tools' }
+            meta: { title: '学生管理', icon: 'el-icon-tools' }
           }
         ]
       },
