@@ -1,5 +1,8 @@
 <template>
   <div class="user">
+    <div class="header">
+      <el-button @click="createClick" type="primary">创建</el-button>
+    </div>
     <Table :loading="loading" :tableData="tableData" :tableColumn="tableColumn" :paginationData="paginationData"
       :selection="true" @paginationDataChange="paginationDataChange" @sort-change="sortChange">
       <template v-slot:nameHeader="{}">
@@ -14,14 +17,16 @@
       </template>
     </Table>
   </div>
+  <CreateOrEdit v-if="createOrEditVisible" @closeCreateOrEdit="closeCreateOrEdit" />
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 
 import Table from '@/components/table/Table.vue'
 import TableFilter from '@/components/table_filter/TableFilter.vue'
 import TableSearch from '@/components/table_search/TableSearch.vue'
+import CreateOrEdit from './components/CreateOrEdit.vue'
 import { ITableColumn } from '@/components/table/interface'
 import { roleList } from '@/utils/data'
 import { useTableList } from '@/utils/useTableList'
@@ -33,8 +38,24 @@ const formatter = (row: any, column: any, cellValue: any, index: number) => {
   return text
 }
 
+const useDialog = (getTableList: () => void) => {
+  const createOrEditVisible = ref<boolean>(false)
+  const createClick = () => {
+    createOrEditVisible.value = true
+  }
+
+  const closeCreateOrEdit = (e: boolean) => {
+    createOrEditVisible.value = false
+    if (e) {
+      getTableList()
+    }
+  }
+
+  return { createOrEditVisible, createClick, closeCreateOrEdit }
+}
+
 export default defineComponent({
-  components: { Table, TableFilter, TableSearch },
+  components: { Table, TableFilter, TableSearch, CreateOrEdit },
   setup () {
     const tableColumn = reactive<Array<ITableColumn>>([
       {
@@ -73,7 +94,7 @@ export default defineComponent({
     ])
 
     const { loading, tableData, paginationData, query, getTableList, paginationDataChange, sortChange, setQuery } = useTableList('/user/list')
-
+    const { createOrEditVisible, createClick, closeCreateOrEdit } = useDialog(getTableList)
     return {
       tableData,
       tableColumn,
@@ -81,12 +102,18 @@ export default defineComponent({
       loading,
       query,
       roleList,
+      createOrEditVisible,
+      createClick,
       paginationDataChange,
       sortChange,
-      setQuery
+      setQuery,
+      closeCreateOrEdit
     }
   }
 })
 </script>
 <style lang="scss" scoped>
+.header {
+  padding: 12px;
+}
 </style>

@@ -2,8 +2,8 @@
 <template>
   <div class="table_page">
     <div class="table_box">
-      <el-table v-loading="loading" :style="{ minWidth: `${tableMinWidth}px` }" :data="tableData" :border="border"
-        :height="height" @selection-change="selectionChange" @select="select" @select-all="selectAll"
+      <el-table v-loading="loading" :style="{ minWidth: `${tableMinWidth}px` }" :data="tableData"
+        :border="border" :height="height" @selection-change="selectionChange" @select="select" @select-all="selectAll"
         @sort-change="sortChange">
         <template v-for="(item, index) in tableColumn" :key="index">
           <el-table-column v-if="item.type === 'selection' || item.type === 'index'" :type="item.type"
@@ -97,6 +97,7 @@ export default defineComponent({
     const { handleCurrentChange, handleSizeChange } = usePaginationChange(props.paginationData, ctx)
     const { select, selectAll, selectionChange } = useSelect(ctx)
     const { sortChange } = useSortChange(ctx)
+
     return {
       slots, elPagination, tableMinWidth, handleSizeChange, handleCurrentChange, select, selectAll, selectionChange, sortChange
     }
