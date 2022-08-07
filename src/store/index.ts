@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
+    token: '',
     userInfo: {},
     menuIsCollapse: false
   },
@@ -16,6 +17,10 @@ export default createStore({
     }
   },
   mutations: {
+    setToken (state, token) {
+      state.token = token
+      localStorage.token = token
+    },
     setUserInfo (state, userInfo) {
       state.userInfo = userInfo
     },

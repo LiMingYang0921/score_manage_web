@@ -3,10 +3,9 @@ import request from '@/utils/request'
 export default {
   XHRLogin (data: object) {
     return request({
-      url: '/api/login',
+      url: '/api/users/login',
       method: 'post',
-      data,
-      mock: true
+      data
     })
   },
   XHRLogout () {

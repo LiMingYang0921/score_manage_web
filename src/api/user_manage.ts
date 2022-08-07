@@ -6,7 +6,6 @@ export default {
       // url: '/user/list',
       url,
       method: 'get',
-      mock: true,
       params
     })
   }

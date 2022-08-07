@@ -46,8 +46,10 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import request from '@/api/index'
 import { Md5 } from 'ts-md5/dist/md5'
+import { useStore } from 'vuex'
 
 const effectForm = () => {
+  const store = useStore()
   const router = useRouter()
   const loading = ref(false)
   const ruleForm = reactive({
@@ -84,7 +86,7 @@ const effectForm = () => {
           })
           .then((res) => {
             if (res.code === 200) {
-              localStorage.token = res.token
+              store.commit('setToken', res.data.token)
               router.push('/')
               ElMessage({
                 message: '登入成功',
